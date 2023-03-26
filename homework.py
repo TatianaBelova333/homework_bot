@@ -44,14 +44,7 @@ HOMEWORK_VERDICTS = {
 
 
 def check_tokens() -> bool:
-    """
-    Check the availability of the environment variables
-    required for running the bot. If PRACTICUM_TOKEN, TELEGRAM_TOKEN
-    or TELEGRAM_CHAT_ID variables are not available,
-    raises NoPracticumTokenError, NoTelegramTokenError or
-    NoTelegamChatIdError, respectively. Return True otherwise.
-
-    """
+    """Check the availability of the environment variables."""
     data = {
         (PRACTICUM_TOKEN, 'PRACTICUM_TOKEN', NoPracticumTokenError),
         (TELEGRAM_TOKEN, 'TELEGRAM_TOKEN', NoTelegramTokenError),
@@ -66,10 +59,7 @@ def check_tokens() -> bool:
 
 
 def send_message(bot: telegram.Bot, message: str) -> None:
-    """
-    Send a Telegram bot message to a telegram user and log it.
-
-    """
+    """Send a Telegram bot message to a telegram user and log it."""
     try:
         bot.send_message(
             chat_id=TELEGRAM_CHAT_ID,
@@ -81,10 +71,7 @@ def send_message(bot: telegram.Bot, message: str) -> None:
 
 
 def get_api_answer(timestamp: Union[int, float]) -> dict:
-    """
-    Return jsonified api response.
-
-    """
+    """Return jsonified API response."""
     payload = {'from_date': timestamp}
     try:
         response = requests.get(
@@ -139,10 +126,7 @@ def check_response(response: dict) -> dict:
 
 
 def parse_status(homework: Optional[dict]) -> str:
-    """
-    Return string with the homework status.
-
-    """
+    """Return string with the homework status."""
     if homework is None:
         return 'На ревью нет новых домашек.'
     if not isinstance(homework, dict):
