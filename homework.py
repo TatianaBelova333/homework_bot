@@ -4,8 +4,10 @@ import os
 import time
 from typing import Union, Optional
 import sys
-import simplejson
-import json
+try:
+    from simplejson.errors import JSONDecodeError
+except ImportError:
+    from json.decoder import JSONDecodeError
 
 from dotenv import load_dotenv
 import telegram
@@ -29,7 +31,7 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
 RETRY_PERIOD = 600
-ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
+ENDPOINT = 'https://parsinger.ru/video_downloads/'  # 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
 HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
 
 HOMEWORKS_KEY = 'homeworks'
@@ -108,7 +110,7 @@ def get_api_answer(timestamp: Union[int, float]) -> dict:
     else:
         try:
             return response.json()
-        except (json.JSONDecodeError, simplejson.JSONDecodeError):
+        except JSONDecodeError:
             raise APIResponseJSONDecodeError(
                 f'Ошибка преобразования ответа API '
                 f'в json в функции {func_name}.'
