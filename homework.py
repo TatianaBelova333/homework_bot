@@ -107,14 +107,13 @@ def get_api_answer(timestamp: Union[int, float]) -> dict:
             f'Произошла ошибка с сервисом {ENDPOINT} '
             f'в функции {func_name}.'
         )
-    else:
-        try:
-            return response.json()
-        except JSONDecodeError:
-            raise APIResponseJSONDecodeError(
-                f'Ошибка преобразования ответа API '
-                f'в json в функции {func_name}.'
-            )
+    try:
+        return response.json()
+    except JSONDecodeError:
+        raise APIResponseJSONDecodeError(
+            f'Ошибка преобразования ответа API '
+            f'в json в функции {func_name}.'
+        )
 
 
 def check_response(response: dict) -> dict:
@@ -186,7 +185,6 @@ def parse_status(homework: Optional[dict]) -> str:
 
 def main():
     """Main logic for runnning the bot."""
-    # ловлю, чтобы залогировать
     try:
         check_tokens()
     except NoEnvVarError as err:
@@ -210,14 +208,14 @@ def main():
                 logger.debug('Статус домашек не поменялся')
 
             timestamp = checked_response[CURRENT_DATE]
+            previous_error_message = None
 
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
             logger.error(message)
             if message != previous_error_message:
-                send_message(bot, message)
-            else:
                 previous_error_message = message
+                send_message(bot, message)
 
         finally:
             time.sleep(RETRY_PERIOD)
