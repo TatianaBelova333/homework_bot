@@ -4,9 +4,9 @@ It sends a message if the status changes.
 
 Technologies:
 
-Python 3.9
-python-dotenv 0.19.0
-python-telegram-bot 13.7
+* Python 3.9
+* python-dotenv 0.19.0
+* python-telegram-bot 13.7
 
 Installation:
 
